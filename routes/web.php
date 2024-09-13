@@ -6,22 +6,19 @@ Route::get('/', function () {
     $html = 
     "<h1> Loading page </h1>
     <div> 
-        <a href='/authentication'> Naar auth page
+        <a href='/authentication-login'> Naar auth page
     </div>
     ";
     return $html;
 });
 
-Route::get('/authentication', function () {
-    $html =
-    "<h1> Authentication page </h1>
-    <div> 
-        <a href='/attendant-homepage/1'> Inloggen als oppasser
-        <a href='/consumer-homepage/1'> Inloggen als consument
-    </div>
-    " ;
-    return $html;
-});
+Route::get('/authentication-login', function () {
+    return view('authentication.login');
+})->name('authentication.login');
+
+Route::get('/authentication-register', function () {
+    return view('authentication.register');
+})->name('authentication.register');
 
 Route::get('/attendant-homepage/{id}', function ($id) {
     $html =
