@@ -3,14 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    $html = 
-    "<h1> Loading page </h1>
-    <div> 
-        <a href='/authentication-login'> Naar auth page
-    </div>
-    ";
-    return $html;
-});
+    return view('authentication.login');
+})->name('opening');
 
 Route::get('/authentication-login', function () {
     return view('authentication.login');
@@ -21,6 +15,7 @@ Route::get('/authentication-register', function () {
 })->name('authentication.register');
 
 Route::get('/attendant-homepage/{id}', function ($id) {
+    return view('attendant.homepage');
     $html =
     "<h1> Homepage </h1>
     <div> 
