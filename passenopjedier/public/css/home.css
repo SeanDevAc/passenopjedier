@@ -1,0 +1,28 @@
+.topNav {
+
+}
+
+.userInfoCard, .petInfoCard {
+    background-color: #1e1e1e;
+    color: white;
+}
+
+.userProfileImage, .petProfileImage {
+    max-width: 100px;
+    width: 20vw;
+}
+
+.jobCardTitle {
+    background-color: #1e1e1e;
+    color: white;
+}
+
+.jobCardInfo {
+    background-color: #D9D9D9;
+}
+
+.employeeCards {
+    background-color: #1e1e1e;
+    color: white;
+}
+
