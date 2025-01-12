@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\HumanController;
 
 // Functie om dummy data op te halen
 function getDummyData() {
@@ -55,6 +56,8 @@ Route::get('/login', function () {
     $humans = DB::table('human')->get();
     return view('auth.login', ['human' => $humans]);
 });
+
+Route::post('/update-name', [HumanController::class, 'updateName'])->name('update.name');
 
 // Register pagina
 Route::get('/register', function () {
