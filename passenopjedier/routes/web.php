@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 // Functie om dummy data op te halen
 function getDummyData() {
@@ -33,6 +34,11 @@ function getDummyData() {
     ];
 }
 
+// function getDbData () {
+//     $data = DB::table('human')->select('humanid', 'name', 'email')->get();
+//     return $data;
+// }
+
 // Route voor de homepagina
 Route::get('/', function () {
     return "
@@ -46,7 +52,8 @@ Route::get('/', function () {
 
 // Login pagina
 Route::get('/login', function () {
-    return view('auth.login');
+    $humans = DB::table('human')->get();
+    return view('auth.login', ['human' => $humans]);
 });
 
 // Register pagina

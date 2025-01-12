@@ -9,5 +9,11 @@
 <body>
     <a href='/'>back</a>
     Login
+
+    @foreach($human as $h)
+        <p> Naam: {{ $h->name }} </p>
+    @endforeach
+
+
 </body>
 </html>
