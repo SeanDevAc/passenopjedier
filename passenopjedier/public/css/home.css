@@ -1,28 +1,429 @@
-.topNav {
-
+body {
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-.userInfoCard, .petInfoCard {
+.generalWrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.topNav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.topNav div {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.userInfoCard {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    gap: 20px;
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.petInfoCard {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    gap: 20px;
+}
+
+.petInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+.vacancySection {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.vacancyFilterSection {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.vacancyCards {
+    background-color: #1e1e1e;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.vacancyCardTitle {
     background-color: #1e1e1e;
     color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+}
+
+.vacancyCardInfo {
+    background-color: white;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.profileImageContainer {
+    flex-shrink: 0;
 }
 
 .userProfileImage, .petProfileImage {
-    max-width: 100px;
-    width: 20vw;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
-.jobCardTitle {
+.petProfileImage {
+    border-radius: 10px;
+}
+
+.actionButtons {
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
     background-color: #1e1e1e;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.vacancyCardTitle button {
+    background-color: transparent;
+    border: 1px solid white;
+}
+
+input[type="text"] {
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    flex: 1;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+form {
+    display: flex;
+}
+
+@media (max-width: 600px) {
+    .userInfoCard, .petInfoCard, .vacancyCardTitle {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .actionButtons {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+.applicationsSection {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.accept-btn {
+    background-color: #4CAF50;
+    border: none;
+}
+
+.reject-btn {
+    background-color: #f44336;
+    border: none;
+}
+
+.actionButtons form {
+    margin: 0;
+}
+
+.actionButtons form button {
+    background-color: transparent;
+    border: 1px solid white;
     color: white;
 }
 
-.jobCardInfo {
-    background-color: #D9D9D9;
+.alert {
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
 }
 
-.employeeCards {
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.reviewForm {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.reviewInputSection {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.reviewContext {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.reviewContext label {
+    font-weight: bold;
+}
+
+.reviewContext textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    min-height: 100px;
+    resize: vertical;
+}
+
+.star-rating {
+    display: flex;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.star-rating span {
+    font-size: 30px;
+    color: #ddd;
+    transition: color 0.2s;
+}
+
+#rating-result {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #666;
+}
+
+.reviewPostButton {
     background-color: #1e1e1e;
     color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+.reviewPostButton:hover {
+    opacity: 0.9;
+}
+
+.sectionTitle {
+    margin-top: 20px;
+}
+
+.sectionTitle h2 {
+    color: #1e1e1e;
+    font-size: 24px;
+    margin: 0;
+}
+
+.emptyState {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    color: #666;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.reviewCard {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 15px;
+}
+
+.reviewHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.reviewHeader h3 {
+    margin: 0;
+    color: #1e1e1e;
+}
+
+.rating {
+    display: flex;
+    gap: 2px;
+}
+
+.star {
+    color: #ddd;
+    font-size: 20px;
+}
+
+.star.filled {
+    color: #ffc107;
+}
+
+.reviewContent {
+    color: #444;
+}
+
+.reviewContent p {
+    margin: 0 0 10px 0;
+    line-height: 1.5;
+}
+
+.reviewContent small {
+    color: #666;
+    display: block;
+}
+
+/* Auth styles */
+.authCard {
+    background-color: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    max-width: 400px;
+    margin: 40px auto;
+    width: 100%;
+}
+
+.authCard h2 {
+    color: #1e1e1e;
+    margin: 0 0 20px 0;
+    text-align: center;
+    font-size: 24px;
+}
+
+.authForm {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.formGroup label {
+    color: #1e1e1e;
+    font-weight: bold;
+}
+
+.formGroup input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.formGroup input:focus {
+    outline: none;
+    border-color: #1e1e1e;
+}
+
+.authButton {
+    background-color: #1e1e1e;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.authButton:hover {
+    opacity: 0.9;
+}
+
+.authLinks {
+    margin-top: 20px;
+    text-align: center;
+    color: #666;
+}
+
+.authLinks a {
+    color: #1e1e1e;
+    text-decoration: underline;
+}
+
+.authLinks a:hover {
+    opacity: 0.8;
+}
+
+@media (max-width: 600px) {
+    .authCard {
+        margin: 20px auto;
+        padding: 20px;
+    }
 }
 

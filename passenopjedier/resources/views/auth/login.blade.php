@@ -4,36 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link rel="stylesheet" href="{{ asset('css/home.css') }}" media="screen">
+    <title>PassenOpJeDier - Login</title>
 </head>
 <body>
-    <a href='/'>back</a>
-    Login
+    <div class="generalWrapper">
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
 
-    @foreach($human as $h)
-        <p> Naam: {{ $h->name }} </p>
-    @endforeach
+        @if(session('error'))
+            <div class="alert alert-error">
+                {{ session('error') }}
+            </div>
+        @endif
 
-    <form method="POST" action="{{ route('update.name') }}">
-        @csrf
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
+        <div class="authCard">
+            <h2>Inloggen</h2>
+            <form method="POST" action="{{ route('login') }}" class="authForm">
+                @csrf
+                <div class="formGroup">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
 
-        <label for="name">Nieuwe naam:</label>
-        <input type="text" id="name" name="name" required>
+                <div class="formGroup">
+                    <label for="password">Wachtwoord</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
 
-        <button type="submit">Werk naam bij</button>
-    </form>
-
-    <!-- Succes- en foutberichten tonen -->
-    @if(session('success'))
-    <p style="color: green;">{{ session('success') }}</p>
-    @endif
-
-    @if(session('error'))
-    <p style="color: red;">{{ session('error') }}</p>
-    @endif
-
-
+                <button type="submit" class="authButton">Inloggen</button>
+            </form>
+            <div class="authLinks">
+                <p>Nog geen account? <a href="{{ route('register') }}">Registreer hier</a></p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
