@@ -27,7 +27,7 @@
             <div class="userInfo">
                 <h3>{{ $user->name }}</h3>
                 <p>Email: {{ $user->email }}</p>
-                <p>Leeftijd: {{ $user->age ?? 'Niet opgegeven' }}</p>
+                <p>Leeftijd: {{ $user->birthdate ? \Carbon\Carbon::parse($user->birthdate)->age : 'Niet opgegeven' }} jaar</p>
                 <p>Lid sinds: {{ isset($user->created_at) ? date('d-m-Y', strtotime($user->created_at)) : 'Onbekend' }}</p>
             </div>
         </div>
