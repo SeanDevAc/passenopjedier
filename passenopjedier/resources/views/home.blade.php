@@ -226,7 +226,7 @@
                     @foreach($appointments as $appointment)
                         <div class="card">
                             <div class="cardHeader">
-                                <h3>{{ $appointment->pet_name }}</h3>
+                                {{-- <h3>{{ $appointment->pet_name }}</h3> --}}
                                 <span class="rate">€{{ $appointment->rate }}/uur</span>
                             </div>
                             <div class="cardContent">
@@ -297,12 +297,9 @@
             @foreach($vacancys as $vacancy)
                 <div class="vacancyCards">
                     <div class="vacancyCardTitle">
-                        <div class="profileImageContainer">
-                            <img src="{{ asset('img/profile-placeholder.jpg') }}" alt="Profile" style="width: 50px; height: 50px; border-radius: 50%;" />
-                        </div>
                         <div class="vacancyInfo">
                             <p>Naam: {{ $vacancy->owner_name }}</p>
-                            <p>Huisdier: {{ $vacancy->pet_name }}</p>
+                            {{-- <p>Huisdier: {{ $vacancy->name }}</p> --}}
                             <p>Tarief: €{{ $vacancy->rate }}</p>
                             <p>Locatie: {{ $vacancy->location ?? 'Niet opgegeven' }}</p>
                         </div>

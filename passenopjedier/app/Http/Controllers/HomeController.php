@@ -38,7 +38,7 @@ class HomeController extends Controller
             ->whereNotNull('vacancy.sitterid')
             ->select(
                 'vacancy.*',
-                'pet.name as pet_name',
+                'pet.name as name',
                 'users.name as sitter_name',
                 'users.id as sitterid'
             )
@@ -137,6 +137,18 @@ class HomeController extends Controller
             ->where('vacancy.ownerid', $user->id)
             ->get();
 
+        $ownVacancies = DB::table('vacancy')
+            ->join('users', 'vacancy.ownerid', '=', 'users.id')
+            ->join('pet', 'vacancy.petid', '=', 'pet.petid')
+            ->select(
+                'vacancy.*',
+                'users.name as owner_name',
+                'pet.name as pet_name'
+            )
+            ->whereNull('vacancy.sitterid')
+            ->where('vacancy.ownerid', $user->id)
+            ->get();
+
         // Gemaakte afspraken
         $appointments = DB::table('vacancy')
             ->join('users', 'vacancy.sitterid', '=', 'users.id')
@@ -155,7 +167,7 @@ class HomeController extends Controller
             ->where('ownerid', Auth::user()->id)
             ->get();
 
-        return view('home', compact('users', 'user', 'vacancys', 'applications', 'appointments', 'pets'));
+        return view('home', compact('users', 'user', 'vacancys', 'applications', 'appointments', 'pet', 'ownVacancies'));
     }
 
 //     public function __invoke()
