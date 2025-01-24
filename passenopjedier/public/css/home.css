@@ -1,0 +1,984 @@
+/* Verfijnde basis stijlen */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: #2d3748;
+    line-height: 1.5;
+}
+
+.generalWrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f7fafc;
+}
+
+/* Verbeterde navigatie */
+.topNav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.topNav p {
+    font-weight: 500;
+    color: #2d3748;
+    margin: 0;
+}
+
+/* Verfijnde card styling */
+.userInfoCard, .petInfoCard, .vacancyCards, .reviewCard {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+    margin-bottom: 25px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.userInfoCard:hover, .petInfoCard:hover, .vacancyCards:hover, .reviewCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Verbeterde profiel styling */
+.userInfo, .petInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+}
+
+.profileImageContainer {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.userProfileImage, .petProfileImage {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border: 4px solid white;
+    transition: transform 0.2s;
+    background: #f8fafc;
+}
+
+.petProfileImage {
+    border-radius: 16px;
+}
+
+.userProfileImage:hover, .petProfileImage:hover {
+    transform: scale(1.05);
+}
+
+.houseImageContainer {
+    margin-top: 20px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.houseImage {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.houseImage:hover {
+    transform: scale(1.02);
+}
+
+/* Verbeterde vacature styling */
+.vacancySection {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.vacancyFilterSection {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+    margin: 25px 0;
+}
+
+.vacancyFilterSection form {
+    display: flex;
+    gap: 15px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.vacancyFilterSection .form-group {
+    flex: 1;
+    min-width: 200px;
+    margin: 0;
+}
+
+.vacancyFilterSection input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    background: #f8fafc;
+}
+
+.vacancyFilterSection input:focus {
+    border-color: #4299e1;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+    outline: none;
+}
+
+.vacancyFilterSection input::placeholder {
+    color: #a0aec0;
+}
+
+.vacancyFilterSection button {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    box-shadow: 0 4px 6px rgba(66, 153, 225, 0.2);
+}
+
+.vacancyFilterSection button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px rgba(66, 153, 225, 0.3);
+}
+
+.vacancyCardTitle {
+    background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+    color: white;
+    padding: 25px;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+}
+
+.vacancyCardInfo {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: white;
+    border-radius: 0 0 12px 12px;
+}
+
+/* Verbeterde form elements */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+textarea,
+select {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 1rem;
+    color: #2d3748;
+    transition: all 0.2s;
+    background: #f8fafc;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: #4299e1;
+    box-shadow: 0 0 0 4px rgba(66, 153, 225, 0.15);
+    background: white;
+}
+
+/* Verbeterde button styling */
+button {
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.primaryButton {
+    background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(66, 153, 225, 0.3);
+}
+
+.primaryButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(66, 153, 225, 0.4);
+}
+
+.secondaryButton {
+    background: white;
+    border: 2px solid #e2e8f0;
+    color: #4a5568;
+}
+
+.secondaryButton:hover {
+    border-color: #4299e1;
+    color: #4299e1;
+    background: #EBF8FF;
+}
+
+.dangerButton {
+    background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+}
+
+.dangerButton:hover {
+    background: linear-gradient(135deg, #B91C1C 0%, #991B1B 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
+}
+
+/* Verbeterde alert styling */
+.alert {
+    padding: 12px 20px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.alert-success {
+    background-color: #c6f6d5;
+    color: #2f855a;
+}
+
+.alert-error {
+    background-color: #fed7d7;
+    color: #c53030;
+}
+
+/* Verbeterde review styling */
+.star-rating {
+    display: flex;
+    gap: 8px;
+}
+
+.star {
+    font-size: 28px;
+    cursor: pointer;
+    color: #CBD5E0;
+    transition: color 0.2s;
+}
+
+.star.filled {
+    color: #F59E0B;
+}
+
+/* Verbeterde settings form */
+.settingsForm {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.formGroup label {
+    font-weight: 600;
+    color: #4a5568;
+    font-size: 0.95rem;
+}
+
+/* Verbeterde animaties */
+@keyframes slideIn {
+    from {
+        transform: translateY(-15px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Verbeterde responsive design */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+
+    .topNav {
+        padding: 12px 20px;
+        margin-bottom: 20px;
+    }
+
+    .userInfoCard,
+    .petInfoCard,
+    .vacancyCards,
+    .reviewCard {
+        padding: 20px;
+    }
+
+    .vacancyCardTitle {
+        padding: 20px;
+    }
+
+    .vacancyCardInfo {
+        padding: 20px;
+    }
+
+    button {
+        padding: 10px 20px;
+    }
+
+    .profileSection {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .userProfileImage, .petProfileImage {
+        width: 120px;
+        height: 120px;
+    }
+
+    .houseImage {
+        height: 200px;
+    }
+
+    .vacancyFilterSection {
+        padding: 15px;
+    }
+
+    .vacancyFilterSection form {
+        flex-direction: column;
+    }
+
+    .vacancyFilterSection .form-group {
+        width: 100%;
+    }
+
+    .vacancyFilterSection button {
+        width: 100%;
+    }
+
+    .vacancyCardTitle {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .actionButtons {
+        margin-top: 10px;
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
+
+/* Verbeterde utility classes */
+.hidden {
+    display: none !important;
+}
+
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.gap-4 { gap: 16px; }
+.mt-4 { margin-top: 16px; }
+.mb-4 { margin-bottom: 16px; }
+.w-full { width: 100%; }
+.text-center { text-align: center; }
+.font-bold { font-weight: 600; }
+.text-sm { font-size: 0.875rem; }
+.text-lg { font-size: 1.125rem; }
+
+/* Vacancy Cards Styling */
+.vacancyCards {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-bottom: 25px;
+    border: 1px solid rgba(226, 232, 240, 0.6);
+}
+
+.vacancyCards:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.vacancyCardTitle {
+    background: white;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.profileImageContainer {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.profileImageContainer img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.profileImageContainer img:hover {
+    transform: scale(1.05);
+}
+
+.vacancyInfo {
+    flex: 1;
+}
+
+.vacancyInfo p {
+    margin: 5px 0;
+    color: #4a5568;
+    font-size: 0.95rem;
+}
+
+.vacancyInfo p:first-child {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 8px;
+}
+
+.vacancyRate {
+    font-weight: 600;
+    color: #4299e1;
+}
+
+.vacancyLocation {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #718096;
+}
+
+.vacancyLocation svg {
+    width: 16px;
+    height: 16px;
+}
+
+.actionButtons {
+    display: flex;
+    gap: 12px;
+    margin-left: auto;
+}
+
+.actionButtons button,
+.actionButtons a {
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.actionButtons a {
+    background: #EBF8FF;
+    color: #4299e1;
+    border: 1px solid #BEE3F8;
+}
+
+.actionButtons a:hover {
+    background: #BEE3F8;
+    transform: translateY(-1px);
+}
+
+.actionButtons button[type="submit"] {
+    background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(66, 153, 225, 0.2);
+}
+
+.actionButtons button[type="submit"]:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(66, 153, 225, 0.3);
+}
+
+/* Applications Section */
+.applicationsSection {
+    margin-top: 40px;
+}
+
+.applicationsSection h2 {
+    font-size: 1.5rem;
+    color: #2d3748;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* Accept/Reject Buttons */
+.accept-btn {
+    background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
+}
+
+.accept-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+}
+
+.reject-btn {
+    background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.2);
+}
+
+.reject-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.3);
+}
+
+/* Extra Vacancy Card Features */
+.vacancyStatus {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-left: auto;
+}
+
+.status-open {
+    background: #DCFCE7;
+    color: #16A34A;
+}
+
+.status-closed {
+    background: #FEE2E2;
+    color: #DC2626;
+}
+
+.vacancyDate {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #718096;
+    font-size: 0.9rem;
+}
+
+.vacancyDate svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Profile Info Styling */
+.userInfo h2, .petInfo h2 {
+    font-size: 1.5rem;
+    color: #2d3748;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.userInfo p, .petInfo p {
+    color: #4a5568;
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+/* Image Upload Preview */
+.imagePreview {
+    max-width: 200px;
+    max-height: 200px;
+    margin-top: 10px;
+    border-radius: 8px;
+    display: none;
+}
+
+.imagePreview.show {
+    display: block;
+}
+
+.filter-section {
+    margin: 20px 0;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 5px;
+}
+
+.filter-section .form-group {
+    margin-bottom: 15px;
+}
+
+.filter-section input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.filter-section button {
+    padding: 8px 20px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.filter-section button:hover {
+    background: #0056b3;
+}
+
+/* General Styles */
+.generalWrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Section Styles */
+.appointmentsSection,
+.applicationsSection,
+.ownVacanciesSection {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #2d3748;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+/* Card Styles */
+.vacancyCards {
+    background: #f7fafc;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 1px solid #e2e8f0;
+}
+
+.vacancyCardTitle {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.vacancyInfo {
+    flex-grow: 1;
+}
+
+.vacancyInfo p {
+    margin: 5px 0;
+    color: #4a5568;
+}
+
+/* Button Styles */
+.actionButtons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.actionButtons button {
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+.actionButtons button a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.accept-btn {
+    background-color: #48bb78;
+    color: white;
+}
+
+.accept-btn:hover {
+    background-color: #38a169;
+}
+
+.reject-btn {
+    background-color: #f56565;
+    color: white;
+}
+
+.reject-btn:hover {
+    background-color: #e53e3e;
+}
+
+/* Profile Image Styles */
+.profileImageContainer {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.profileImageContainer img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Create Button */
+.createButton {
+    background-color: #4299e1;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    border: none;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.createButton:hover {
+    background-color: #3182ce;
+}
+
+.createButton a {
+    color: white;
+    text-decoration: none;
+}
+
+/* General Layout */
+.generalWrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f7fafc;
+}
+
+/* Section Styling */
+.section {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #2d3748;
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+/* Card Grid */
+.cardGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+/* Card Styling */
+.card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.cardHeader {
+    padding: 16px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cardHeader h3 {
+    margin: 0;
+    color: #2d3748;
+    font-size: 1.1rem;
+}
+
+.rate {
+    color: #4a5568;
+    font-weight: 500;
+}
+
+.cardContent {
+    padding: 16px;
+}
+
+.cardContent p {
+    margin: 8px 0;
+    color: #4a5568;
+}
+
+.description {
+    font-size: 0.9rem;
+    color: #718096;
+    margin-top: 12px;
+}
+
+.cardActions {
+    padding: 16px;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    gap: 8px;
+}
+
+/* Buttons */
+.createButton {
+    background: #4299e1;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.createButton:hover {
+    background: #3182ce;
+}
+
+.createButton a {
+    color: white;
+    text-decoration: none;
+}
+
+.editBtn, .viewBtn {
+    background: #4299e1;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.acceptBtn {
+    background: #48bb78;
+    color: white;
+}
+
+.rejectBtn, .deleteBtn, .cancelBtn {
+    background: #f56565;
+    color: white;
+}
+
+.acceptBtn, .rejectBtn, .deleteBtn, .cancelBtn {
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.acceptBtn:hover { background: #38a169; }
+.rejectBtn:hover, .deleteBtn:hover, .cancelBtn:hover { background: #e53e3e; }
+.editBtn:hover, .viewBtn:hover { background: #3182ce; }
+
+/* Empty State */
+.emptyMessage {
+    text-align: center;
+    color: #718096;
+    padding: 20px;
+}
+
+/* Top Navigation */
+.topNav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.topNav p {
+    font-weight: 500;
+    color: #2d3748;
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .cardGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .cardActions {
+        flex-direction: column;
+    }
+
+    .cardActions > * {
+        width: 100%;
+    }
+}
+
