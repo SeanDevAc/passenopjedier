@@ -5,107 +5,112 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ asset('css/home.css') }}" media="screen">
-    <title>PassenOpJeDier - Instellingen</title>
+    <title>Instellingen - PassenOpJeDier</title>
 </head>
 <body>
     <div class="generalWrapper">
+        <div class="topNav">
+            <h1>Instellingen</h1>
+            <a href="{{ route('home') }}">Terug naar Home</a>
+        </div>
+
         @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
             </div>
         @endif
 
-        @if(session('error'))
-            <div class="alert alert-error">
-                {{ session('error') }}
-            </div>
-        @endif
-
-        <div class="topNav">
-            <p>Instellingen</p>
-            <div>
-                <a href='/home'>back</a>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit">Uitloggen</button>
-                </form>
-            </div>
-        </div>
-
         <div class="settingsCard">
-            <h2>Profiel Instellingen</h2>
-            <form method="POST" action="{{ route('settings.update') }}" class="settingsForm" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('settings.update') }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
                 <div class="formGroup">
                     <label for="name">Naam</label>
-                    <input type="text" id="name" name="name" value="{{ $user->name }}" required>
+                    <input type="text" id="name" name="name" value="{{ old('name', $user->name) }}" required>
+                    @error('name')
+                        <span class="error">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div class="formGroup">
                     <label for="email">Email</label>
-                    <input type="email" id="email" name="email" value="{{ $user->email }}" required>
+                    <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}" required>
+                    @error('email')
+                        <span class="error">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="formGroup">
+                    <label for="bio">Over Mij</label>
+                    <textarea id="bio" name="bio" rows="4">{{ old('bio', $user->bio) }}</textarea>
+                    @error('bio')
+                        <span class="error">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div class="formGroup">
                     <label for="birthdate">Geboortedatum</label>
-                    <input type="date" id="birthdate" name="birthdate" value="{{ $user->birthdate }}">
+                    <input type="date" id="birthdate" name="birthdate"
+                           value="{{ old('birthdate', $user->birthdate) }}"
+                           max="{{ date('Y-m-d', strtotime('-18 years')) }}"
+                           min="{{ date('Y-m-d', strtotime('-100 years')) }}"
+                           required>
+                    @error('birthdate')
+                        <span class="error">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div class="formGroup">
-                    <label for="bio">Bio</label>
-                    <textarea id="bio" name="bio" rows="4">{{ $user->bio }}</textarea>
+                    <label for="haspet">Heb je een huisdier?</label>
+                    <select id="haspet" name="haspet" required>
+                        <option value="1" {{ old('haspet', $user->haspet) === true ? 'selected' : '' }}>Ja</option>
+                        <option value="0" {{ old('haspet', $user->haspet) === false ? 'selected' : '' }}>Nee</option>
+                    </select>
+                    @error('haspet')
+                        <span class="error">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div class="formGroup">
-                    <label for="profile_image">Profielfoto</label>
-                    <input type="file" id="profile_image" name="profile_image" accept="image/*">
+                    <label for="profileimage">Profielfoto</label>
+                    @if($user->profileimage)
+                        <div class="currentImage">
+                            <p>Huidige foto:</p>
+                            <img src="data:image/jpeg;base64,{{ base64_encode(stream_get_contents($user->profileimage)) }}" alt="Huidige foto">
+                        </div>
+                    @endif
+                    <input type="file" id="profileimage" name="profileimage" accept="image/*">
+                    @error('profileimage')
+                        <span class="error">{{ $message }}</span>
+                    @enderror
                 </div>
 
-                <button type="submit" class="settingsButton">Opslaan</button>
-            </form>
-        </div>
+                <div class="passwordSection">
+                    <h3>Wachtwoord Wijzigen</h3>
+                    <div class="formGroup">
+                        <label for="current_password">Huidig Wachtwoord</label>
+                        <input type="password" id="current_password" name="current_password">
+                        @error('current_password')
+                            <span class="error">{{ $message }}</span>
+                        @enderror
+                    </div>
 
-        <div class="settingsCard">
-            <h2>Wachtwoord Wijzigen</h2>
-            <form method="POST" action="{{ route('settings.password') }}" class="settingsForm">
-                @csrf
-                @method('PUT')
+                    <div class="formGroup">
+                        <label for="new_password">Nieuw Wachtwoord</label>
+                        <input type="password" id="new_password" name="new_password">
+                        @error('new_password')
+                            <span class="error">{{ $message }}</span>
+                        @enderror
+                    </div>
 
-                <div class="formGroup">
-                    <label for="current_password">Huidig Wachtwoord</label>
-                    <input type="password" id="current_password" name="current_password" required>
+                    <div class="formGroup">
+                        <label for="new_password_confirmation">Bevestig Nieuw Wachtwoord</label>
+                        <input type="password" id="new_password_confirmation" name="new_password_confirmation">
+                    </div>
                 </div>
 
-                <div class="formGroup">
-                    <label for="new_password">Nieuw Wachtwoord</label>
-                    <input type="password" id="new_password" name="new_password" required>
-                </div>
-
-                <div class="formGroup">
-                    <label for="new_password_confirmation">Bevestig Nieuw Wachtwoord</label>
-                    <input type="password" id="new_password_confirmation" name="new_password_confirmation" required>
-                </div>
-
-                <button type="submit" class="settingsButton">Wachtwoord Wijzigen</button>
-            </form>
-        </div>
-
-        <div class="settingsCard">
-            <h2>Account Verwijderen</h2>
-            <p class="deleteWarning">Let op: Deze actie kan niet ongedaan worden gemaakt.</p>
-            <form method="POST" action="{{ route('settings.delete') }}" class="settingsForm">
-                @csrf
-                @method('DELETE')
-
-                <div class="formGroup">
-                    <label for="delete_confirmation">Typ "VERWIJDER" om te bevestigen</label>
-                    <input type="text" id="delete_confirmation" name="delete_confirmation" required
-                           pattern="VERWIJDER" title="Typ 'VERWIJDER' om te bevestigen">
-                </div>
-
-                <button type="submit" class="deleteButton">Account Verwijderen</button>
+                <button type="submit" class="submitButton">Opslaan</button>
             </form>
         </div>
     </div>

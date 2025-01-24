@@ -6,13 +6,61 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\ApplicationController;
+use App\Models\Application;
 
 class HomeController extends Controller
 {
     public function index()
     {
+        $applicationController = new ApplicationController();
+        $myApplications = $applicationController->getMyApplications();
+
+        // Haal de user op met alle data
+        $user = DB::table('users')
+            ->where('id', Auth::id())
+            ->select('users.*')  // Selecteer alle velden, net zoals bij pets
+            ->first();
+
+        // Huisdieren van de ingelogde gebruiker
+        $pets = DB::table('pet')
+            ->where('ownerid', Auth::id())
+            ->select(
+                'pet.*'
+            )
+            ->get();
+
+        // Appointments voor huisdier eigenaren
+        $appointments = DB::table('vacancy')
+            ->join('users', 'vacancy.sitterid', '=', 'users.id')
+            ->join('pet', 'vacancy.petid', '=', 'pet.petid')
+            ->where('vacancy.ownerid', Auth::id())
+            ->whereNotNull('vacancy.sitterid')
+            ->select(
+                'vacancy.*',
+                'pet.name as pet_name',
+                'users.name as sitter_name',
+                'users.id as sitterid'
+            )
+            ->get();
+
+        // Ontvangen sollicitaties
+        $applications = DB::table('applications')
+            ->join('vacancy', 'applications.vacancyid', '=', 'vacancy.vacancyid')
+            ->join('users', 'applications.applicantid', '=', 'users.id')
+            ->join('pet', 'vacancy.petid', '=', 'pet.petid')
+            ->where('vacancy.ownerid', Auth::id())
+            ->select(
+                'applications.*',
+                'pet.name as pet_name',
+                'users.name as applicant_name',
+                'users.id as applicantid',
+                'vacancy.rate',
+                'vacancy.datetime'
+            )
+            ->get();
+
         $users = DB::table('users')->get();
-        $user = Auth::user();
 
         // Open vacatures van andere gebruikers
         $vacancys = DB::table('vacancy')
@@ -40,40 +88,7 @@ class HomeController extends Controller
             ->where('vacancy.ownerid', $user->id)
             ->get();
 
-        // Ontvangen sollicitaties
-        $applications = DB::table('applications')
-            ->join('users', 'applications.applicantid', '=', 'users.id')
-            ->join('vacancy', 'applications.vacancyid', '=', 'vacancy.vacancyid')
-            ->join('pet', 'vacancy.petid', '=', 'pet.petid')
-            ->select(
-                'applications.*',
-                'users.name as applicant_name',
-                'vacancy.rate',
-                'vacancy.datetime',
-                'pet.name as pet_name'
-            )
-            ->where('vacancy.ownerid', $user->id)
-            ->get();
-
-        Log::info('Applications query:', [
-            'sql' => DB::getQueryLog(),
-            'results' => $applications
-        ]);
-
-        // Gemaakte afspraken
-        $appointments = DB::table('vacancy')
-            ->join('users', 'vacancy.sitterid', '=', 'users.id')
-            ->join('pet', 'vacancy.petid', '=', 'pet.petid')
-            ->select(
-                'vacancy.*',
-                'users.name as sitter_name',
-                'pet.name as pet_name'
-            )
-            ->where('vacancy.ownerid', $user->id)
-            ->whereNotNull('vacancy.sitterid')
-            ->get();
-
-        return view('home', compact('users', 'user', 'vacancys', 'applications', 'appointments', 'ownVacancies'));
+        return view('home', compact('users', 'user', 'vacancys', 'myApplications', 'ownVacancies', 'pets', 'appointments', 'applications'));
     }
 
     public function filter(Request $request)
@@ -135,7 +150,12 @@ class HomeController extends Controller
             ->whereNotNull('vacancy.sitterid')
             ->get();
 
-        return view('home', compact('users', 'user', 'vacancys', 'applications', 'appointments'));
+        // Voeg ook de pet toe aan de filter methode
+        $pet = DB::table('pet')
+            ->where('ownerid', Auth::user()->id)
+            ->get();
+
+        return view('home', compact('users', 'user', 'vacancys', 'applications', 'appointments', 'pets'));
     }
 
 //     public function __invoke()

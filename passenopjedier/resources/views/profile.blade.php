@@ -69,10 +69,19 @@
                                 <span class="star {{ $i <= $review->rating ? 'filled' : '' }}">&#9733;</span>
                             @endfor
                         </div>
+                        @if(Auth::id() == $review->ownerid)
+                            <form method="POST" action="{{ route('review.destroy', $review->reviewid) }}" style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="deleteBtn" onclick="return confirm('Weet je zeker dat je deze review wilt verwijderen?')">
+                                    Verwijderen
+                                </button>
+                            </form>
+                        @endif
                     </div>
                     <div class="reviewContent">
                         <p>{{ $review->description }}</p>
-                        <small>Geplaatst op: {{ date('d-m-Y', strtotime($review->placedat)) }}</small>
+                        <small>Geplaatst op: {{ date('d-m-Y', strtotime($review->reviewid)) }}</small>
                     </div>
                 </div>
             @endforeach

@@ -14,7 +14,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\AppointmentController;
-
+use App\Http\Controllers\Auth\RegisterController;
 
 Route::post('/update-name', [HumanController::class, 'updateName'])->name('update.name');
 Route::post('/reviews-store', [ReviewController::class, 'store'])->name('reviews.store');
@@ -39,30 +39,13 @@ Route::get('/register', function () {
 });
 
 // Review schrijven
-Route::get('/review/write', function () {
-    $user = Auth::user();
+// Route::get('/review/write', function () { ... });
 
-    // Get all users who could be reviewed (for the dropdown)
-    $users = DB::table('users')
-        ->where('id', '!=', $user->id)
-        ->select('id', 'name')
-        ->get();
-
-    // Get all pets (for the dropdown)
-    $pets = DB::table('pet')
-        ->select('petid', 'name')
-        ->get();
-
-    return view('review.write', [
-        'user' => $user,
-        'users' => $users,
-        'pets' => $pets
-    ]);
-})->middleware('auth')->name('review.write');
-
-Route::post('/reviews-store', [ReviewController::class, 'store'])
-    ->name('reviews.store')
-    ->middleware('auth');
+// Voeg deze nieuwe routes toe voor reviews
+Route::middleware(['auth'])->group(function () {
+    Route::get('/review/write/{sitter}', [ReviewController::class, 'write'])->name('review.write');
+    Route::post('/reviews-store', [ReviewController::class, 'store'])->name('reviews.store');
+});
 
 // Home pagina met dummy data
 Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware('auth');
@@ -159,3 +142,19 @@ Route::delete('/vacancy/delete/{id}', [VacancyController::class, 'destroy'])->na
 
 Route::delete('/admin/vacancies/{id}', [AdminController::class, 'deleteVacancy'])->name('admin.vacancies.delete');
 Route::delete('/admin/applications/{id}', [AdminController::class, 'deleteApplication'])->name('admin.applications.delete');
+
+Route::get('/pet/{id}/edit', [App\Http\Controllers\PetController::class, 'edit'])->name('pet.edit');
+Route::put('/pet/{id}', [App\Http\Controllers\PetController::class, 'update'])->name('pet.update');
+
+Route::get('/pet/create', [App\Http\Controllers\PetController::class, 'create'])->name('pet.create');
+Route::post('/pet', [App\Http\Controllers\PetController::class, 'store'])->name('pet.store');
+Route::delete('/pet/{id}', [App\Http\Controllers\PetController::class, 'destroy'])->name('pet.destroy');
+
+Route::post('/applications/{application}/withdraw', [ApplicationController::class, 'withdraw'])->name('applications.withdraw');
+
+// Route::get('/review/write//{sitter}', [ReviewController::class, 'write'])->name('review.write');
+// Route::get('/register', [AuthController::class, 'showRegistrationForm']);
+// Route::post('/register-form', [AuthController::class, 'register'])->name('register-form');
+
+Route::delete('/review/{review}', [ReviewController::class, 'destroy'])->name('review.destroy')->middleware('auth');
+

@@ -38,7 +38,7 @@
             </div>
             <div class="userInfo">
                 <h3>{{ $user->name }}</h3>
-                <p>Leeftijd: {{ $user->age ?? '[age]' }}</p>
+                <p>Geboortedatum: {{ $user->birthdate ?? '[birthdate]' }}</p>
             </div>
         </div>
 
@@ -46,7 +46,7 @@
             @csrf
             <div class="reviewInputSection">
                 <div class="reviewContext">
-                    <label>Schrijf een review...</label>
+                    <label>Schrijf een review voor oppas van {{ $vacancy->pet_name }}...</label>
                     <textarea id="description" name="description" required></textarea>
                 </div>
                 <div class="star-rating">
@@ -57,9 +57,8 @@
                     <span data-value="5">&#9733;</span>
                 </div>
                 <input type="hidden" id="rating" name="rating" value="0">
-                <input type="hidden" name="sitterid" value="{{ $user->id }}">
-                <input type="hidden" name="ownerid" value="{{ $user->id }}">
-                <input type="hidden" name="petid" value="1">
+                <input type="hidden" name="sitterid" value="{{ $sitter->id }}">
+                <input type="hidden" name="petid" value="{{ $vacancy->petid }}">
                 <p id="rating-result">Beoordeling: 0 sterren</p>
             </div>
             <button type="submit" class="reviewPostButton">Review Plaatsen</button>

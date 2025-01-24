@@ -35,7 +35,9 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|between:8,255|confirmed',
-            'haspet' => 'nullable|boolean'
+            'haspet' => 'nullable|boolean',
+            'bio' => 'nullable|string',
+            'birthdate' => 'required|date',
         ]);
 
         $hasPet = $request->has('haspet');
@@ -46,6 +48,8 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'haspet' => $hasPet,
+            'bio' => $request->bio,
+            'birthdate' => $request->birthdate,
         ]);
 
         // Check if the insertion was successful
@@ -53,7 +57,7 @@ class AuthController extends Controller
             // You could log the user in immediately
             Auth::attempt($request->only('email', 'password'));
 
-            return redirect()->route('/home')->with('success', 'Registration successful!');
+            return redirect()->route('home')->with('success', 'Registration successful!');
         } else {
             return redirect()->back()->with('error', 'There was an issue with the registration.');
         }

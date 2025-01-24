@@ -11,56 +11,55 @@ use Illuminate\Validation\Rules\Password;
 
 class SettingsController extends Controller
 {
+    public function index()
+    {
+        return view('settings', ['user' => Auth::user()]);
+    }
 
     public function update(Request $request)
     {
-        $user = Auth::user();
-
-        // Validate the request
-        $validated = $request->validate([
+        $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'birthdate' => 'nullable|date|before:today',
-            'bio' => 'nullable|string|max:1000',
-            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'email' => 'required|string|email|max:255|unique:users,email,' . Auth::id(),
+            'bio' => 'nullable|string',
+            'profileimage' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'current_password' => 'nullable|required_with:new_password',
+            'new_password' => 'nullable|min:8|confirmed',
+            'birthdate' => 'required|date',
+            'haspet' => 'required|boolean',
         ]);
 
-        try {
-            // Handle profile image upload
-            if ($request->hasFile('profile_image')) {
-                // Delete old image if it exists
-                if ($user->profile_image && Storage::exists('public/profile_images/' . $user->profile_image)) {
-                    Storage::delete('public/profile_images/' . $user->profile_image);
-                }
+        $updateData = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'bio' => $request->bio,
+            'birthdate' => $request->birthdate,
+            'haspet' => $request->haspet,
+        ];
 
-                // Store new image
-                $imageName = time() . '.' . $request->profile_image->extension();
-                $request->profile_image->storeAs('public/profile_images', $imageName);
-                $validated['profile_image'] = $imageName;
-            }
-
-            // Update user in database
-            DB::table('users')
-                ->where('id', $user->id)
-                ->update([
-                    'name' => $validated['name'],
-                    'email' => $validated['email'],
-                    'birthdate' => $validated['birthdate'],
-                    'bio' => $validated['bio'],
-                    'profile_image' => $validated['profile_image'] ?? $user->profile_image,
-                    'updated_at' => now()
-                ]);
-
-            return redirect()
-                ->back()
-                ->with('success', 'Profiel succesvol bijgewerkt!');
-
-        } catch (\Exception $e) {
-            return redirect()
-                ->back()
-                ->with('error', 'Er is iets misgegaan bij het bijwerken van je profiel.')
-                ->withInput();
+        // Handle profile image
+        if ($request->hasFile('profileimage')) {
+            $image = $request->file('profileimage');
+            $updateData['profileimage'] = DB::raw("decode('" .
+                base64_encode(file_get_contents($image->getRealPath())) .
+                "', 'base64')"
+            );
         }
+
+        // Als er een nieuw wachtwoord is, voeg deze toe
+        if ($request->filled('new_password')) {
+            if (!Hash::check($request->current_password, Auth::user()->password)) {
+                return back()->withErrors(['current_password' => 'Het huidige wachtwoord is incorrect.']);
+            }
+            $updateData['password'] = Hash::make($request->new_password);
+        }
+
+        // Update database
+        DB::table('users')
+            ->where('id', Auth::id())
+            ->update($updateData);
+
+        return redirect()->route('settings')->with('success', 'Instellingen succesvol bijgewerkt!');
     }
 
     public function updatePassword(Request $request)
@@ -83,7 +82,6 @@ class SettingsController extends Controller
                 ->where('id', $user->id)
                 ->update([
                     'password' => Hash::make($validated['new_password']),
-                    'updated_at' => now()
                 ]);
 
             return redirect()
@@ -111,8 +109,8 @@ class SettingsController extends Controller
             DB::beginTransaction();
 
             // Delete user's profile image if it exists
-            if ($user->profile_image && Storage::exists('public/profile_images/' . $user->profile_image)) {
-                Storage::delete('public/profile_images/' . $user->profile_image);
+            if ($user->profileimage && Storage::exists('public/profileimages/' . $user->profileimage)) {
+                Storage::delete('public/profileimages/' . $user->profileimage);
             }
 
             // Delete related records

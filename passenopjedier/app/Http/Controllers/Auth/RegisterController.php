@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\Services\ImageUploader;
+use Carbon\Carbon;
 
 class RegisterController extends Controller
 {
@@ -22,110 +23,72 @@ class RegisterController extends Controller
 
     protected function validator(array $data)
     {
-        return validator($data, [
+        $rules = [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'birthdate' => ['required', 'date'],
-            'bio' => ['nullable', 'string', 'max:1000'],
-            'profile_image' => ['nullable', 'image', 'max:2048'],
-            'house_image' => ['nullable', 'image', 'max:2048'],
-            // 'pet_name' => ['nullable', 'string', 'max:255'],
-            // 'pet_type' => ['nullable', 'string', 'max:255'],
-            // 'pet_description' => ['nullable', 'string', 'max:1000'],
-            // 'pet_image' => ['nullable', 'image', 'max:2048'],
-        ]);
-    }
+            'bio' => ['nullable', 'string'],
+            'profileimage' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
+            'has_pet' => ['nullable', 'boolean'],
+        ];
 
-    public function register(Request $request)
-    {
-        $this->validator($request->all())->validate();
-
-        $data = $request->all();
-
-        if ($request->hasFile('profile_image')) {
-            $data['profile_image'] = $request->file('profile_image');
-        }
-        if ($request->hasFile('house_image')) {
-            $data['house_image'] = $request->file('house_image');
-        }
-        if ($request->hasFile('pet_image')) {
-            $data['pet_image'] = $request->file('pet_image');
-        }
-
-        $user = $this->create($data);
-
-        // Gebruik de correcte credentials om in te loggen
-        Auth::attempt([
-            'email' => $data['email'],
-            'password' => $data['password']
-        ]);
-
-        return redirect()->route('home')->with('success', 'Welkom bij PassenOpJeDier!');
-    }
-
-    protected function create(array $data)
-    {
-        try {
-            // Create the user first without images
-            $userId = DB::table('users')->insertGetId([
-                'name' => $data['name'],
-                'email' => $data['email'],
-                'password' => Hash::make($data['password']),
-                'birthdate' => $data['birthdate'],
-                'bio' => $data['bio'] ?? null,
-                'created_at' => now(),
-                'updated_at' => now(),
-                'profile_image' => null,
-                'house_image' => null
-            ]);
-
-            // Handle profile image upload
-            if (isset($data['profile_image'])) {
-                $profileImage = $this->imageUploader->uploadImage($data['profile_image'], 'profile');
-                DB::table('users')
-                    ->where('id', $userId)
-                    ->update(['profile_image' => $profileImage]);
-            }
-
-            // Handle house image upload
-            if (isset($data['house_image'])) {
-                $houseImage = $this->imageUploader->uploadImage($data['house_image'], 'house');
-                DB::table('users')
-                    ->where('id', $userId)
-                    ->update(['house_image' => $houseImage]);
-            }
-
-            // Handle pet registration if user has a pet
-            if (isset($data['has_pet']) && $data['has_pet'] === 'on') {
-                $petData = [
-                    'ownerid' => $userId,
-                    'name' => $data['pet_name'],
-                    'type' => $data['pet_type'],
-                    'description' => $data['pet_description'] ?? null,
-                    'image' => null,
-                    'created_at' => now(),
-                    'updated_at' => now()
-                ];
-
-                // Handle pet image upload
-                if (isset($data['pet_image'])) {
-                    $petImage = $this->imageUploader->uploadImage($data['pet_image'], 'pet');
-                    $petData['image'] = $petImage;
-                }
-
-                DB::table('pet')->insert($petData);
-            }
-
-            return DB::table('users')->where('id', $userId)->first();
-        } catch (\Exception $e) {
-            Log::error('Registration error: ' . $e->getMessage());
-            throw $e;
-        }
+        return validator($data, $rules);
     }
 
     public function showRegistrationForm()
     {
         return view('auth.register');
+    }
+
+    public function store(Request $request)
+    {
+        // Gebruik dezelfde validatieregels als in de validator methode
+        $validator = $this->validator($request->all());
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        // Begin een database transactie
+        DB::beginTransaction();
+
+        try {
+            // Maak de gebruiker aan
+            $userData = [
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'birthdate' => $request->birthdate,
+                'bio' => $request->bio,
+            ];
+
+            // Verwerk de profielfoto als die is geüpload
+            if ($request->hasFile('profile_image')) {
+                $profileImage = $request->file('profile_image');
+                $profileImageData = base64_encode(file_get_contents($profileImage->getRealPath()));
+
+                // Voeg de gebruiker toe met profielfoto
+                $userId = DB::table('users')->insertGetId($userData);
+
+                DB::statement("
+                    UPDATE users
+                    SET profile_image = decode(?, 'base64')
+                    WHERE id = ?
+                ", [$profileImageData, $userId]);
+            } else {
+                $userId = DB::table('users')->insertGetId($userData);
+            }
+
+            DB::commit();
+
+            // Log de gebruiker in
+            Auth::loginUsingId($userId);
+
+            return redirect()->route('home')->with('success', 'Registratie succesvol!');
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return back()->withInput()->withErrors(['error' => 'Er is iets misgegaan bij de registratie. Probeer het opnieuw.']);
+        }
     }
 }
